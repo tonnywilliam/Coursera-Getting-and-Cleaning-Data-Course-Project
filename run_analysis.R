@@ -1,15 +1,3 @@
-#course project UCI HAR Dataset, wearable data
-#1st col should be who: a subset of 1-30, points to person
-#2nd col should be movement: 1-6 for walking_up, walking_down
-#from 3rd to 3+561 column are measurements_processed in X_train.txt
-# these 561 columns should be titled by measurements_processed_labels in features.txt
-#the rows of the three files are the same - number of observations
-
-#1-6 is walking up, walking down, etc 6 types of movements
-#this is in the y_train, or y_train, called label
-
-#for another machine path0<-"C:/Users/tonnywilliam/dropbox/0 r/UCI HAR Dataset"
-
 library(data.table)
 dataprocessor<-function(wkdir,act.fpath,subj.fpath,data.fpath,subgroup)
 {
@@ -58,3 +46,8 @@ trainset<-dataprocessor(
 onetidyset<-rbind(trainset,testset)
 onetidyset[,subject_group:=NULL]	#remove a column
 avgbysubj_act<-onetidyset[,lapply(.SD,mean),by=list(subject,activity)]	#mean by subject by activity
+
+#output to file
+write.table(onetidyset, "tidydatahuang.txt", sep="\t",row.name=FALSE)
+write.table(avgbysubj_act, "dataavghuang.txt", sep="\t",row.name=FALSE)
+
